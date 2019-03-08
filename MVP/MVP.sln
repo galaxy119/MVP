@@ -1,0 +1,17 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVP", "MVP\MVP.csproj", "{B8E75BEE-C31F-4FC8-947F-41CF7C9A487E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8E75BEE-C31F-4FC8-947F-41CF7C9A487E}.Release|x86.ActiveCfg = Release|x86
+		{B8E75BEE-C31F-4FC8-947F-41CF7C9A487E}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		outputpath = ../bin/JokerAnnounce
+	EndGlobalSection
+EndGlobal

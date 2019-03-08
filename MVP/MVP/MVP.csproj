@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{B8E75BEE-C31F-4FC8-947F-41CF7C9A487E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MVP</RootNamespace>
+    <AssemblyName>MVP</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\MVP</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <AssemblyName>MVP</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Smod2">
+      <HintPath>..\References\Smod2.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\References\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\References\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\References\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\References\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MVP.cs" />
+    <Compile Include="EventsHandler.cs" />
+    <Compile Include="Timing.cs" />
+	<Compile Include="MVPCommands.cs" />
+	<Compile Include="MVPFunctions.cs" />
+	<Compile Include="GetPlayerFromString.cs" />
+	<Compile Include="LevenshteinDistance.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+      <PreBuildEvent>rm -rf *</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+      <PostBuildEvent>rm -rf Smod* Assembly* Unity* *.pdb</PostBuildEvent>
+  </PropertyGroup>
+</Project>
