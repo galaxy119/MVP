@@ -44,7 +44,7 @@ namespace MVP
 		}
 		public void OnPlayerDie(PlayerDeathEvent ev)
 		{
-			if (MVP.enabled)
+			if (MVP.enabled && ev.Killer != null)
 			{
 				if (MVP.track_scps && ev.Killer.TeamRole.Team == Smod2.API.Team.SCP)
 				{
