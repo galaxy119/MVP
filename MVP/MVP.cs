@@ -22,15 +22,18 @@ namespace MVP
 	public class MVP : Plugin
 	{
 		internal static MVP singleton;
-		public static Dictionary<string, int> killCounter = new Dictionary<string, int>();
+		public static Dictionary<string, double> killCounter = new Dictionary<string, double>();
 		public static Dictionary<string, int> multikill = new Dictionary<string, int>();
 		public static Dictionary<string, bool> multi_track = new Dictionary<string, bool>();
+		public static Dictionary<string, double> scp_kill_count = new Dictionary<string, double>();
 		public static Player mvp;
 		public static bool
 			enabled,
 			track_scp_kills,
 			track_scps,
 			multi_kill,
+			half_scp_kills,
+			multi_cassie,
 			count_grenades;
 		public static float
 			multi_kill_delay;
@@ -58,6 +61,8 @@ namespace MVP
 			this.AddConfig(new ConfigSetting("mvp_multikill_delay", 3f, SettingType.FLOAT, true, "The amount of time kills must be registered in to qualify for a multikill."));
 			this.AddConfig(new ConfigSetting("mvp_multikill_num", 3, SettingType.NUMERIC, true, "The number of kills required to get a Multikill announcement."));
 			this.AddConfig(new ConfigSetting("mvp_multi_text", "is on fire!", SettingType.STRING, true, "The text displayed for Multi-Kills."));
+			this.AddConfig(new ConfigSetting("mvp_multi_cassie", true, SettingType.BOOL, true, "If Cassie should make an announcement for SCP multi-kills."));
+			this.AddConfig(new ConfigSetting("mvp_scp_half_kill", false, SettingType.BOOL, true, "This makes SCP kills count as half kills."));
 			this.AddCommands(new string[] { "mvp" }, new MVPCommand());
 			Timing.Init(this);
 			new Functions(this);

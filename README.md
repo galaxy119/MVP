@@ -22,6 +22,8 @@ mvp_multikill | Bool | true | If the plugin should track and announce multi-kill
 mvp_multikill_delay | Float | 3 | The amount of time a player has to qualify for a multikill to be announced.
 mvp_multikill_num | Int | 3 | The number of kills required for a player's multikill to get announced.
 mvp_multi_text | String | is on fire! | The text string displayed after the players name in the multi-kill announcement.
+mvp_multi_cassie | Bool | true | If CASSIE should announce when an SCP is on fire.
+mvp_half_scp_kills | Bool | false | If SCP kills should count as half a normal kill.
 
 ### Commands
   Command |  |  | Description

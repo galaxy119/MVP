@@ -23,6 +23,7 @@ namespace MVP
 			MVP.multi_kill_delay = this.plugin.GetConfigFloat("mvp_multikill_delay");
 			MVP.multi_kill_num = this.plugin.GetConfigInt("mvp_multikill_num");
 			MVP.multi_text = this.plugin.GetConfigString("mvp_multi_text");
+			MVP.multi_cassie = this.plugin.GetConfigBool("mvp_multi_cassie");
 		}
 		public void OnRoundStart(RoundStartEvent ev)
 		{
@@ -31,6 +32,7 @@ namespace MVP
 				MVP.killCounter[player.Name] = 0;
 				MVP.multi_track[player.Name] = false;
 				MVP.multikill[player.Name] = 0;
+				MVP.scp_kill_count[player.Name] = 0;
 			}
 		}
 		public void OnPlayerJoin(PlayerJoinEvent ev)
@@ -38,6 +40,7 @@ namespace MVP
 			MVP.killCounter[ev.Player.Name] = 0;
 			MVP.multi_track[ev.Player.Name] = false;
 			MVP.multikill[ev.Player.Name] = 0;
+			MVP.scp_kill_count[ev.Player.Name] = 0;
 		}
 		public void OnPlayerDie(PlayerDeathEvent ev)
 		{
@@ -50,7 +53,14 @@ namespace MVP
 				}
 				else if (MVP.track_scp_kills && ev.Player.TeamRole.Team == Smod2.API.Team.SCP)
 				{
-					MVP.killCounter[ev.Killer.Name]++;
+					if (MVP.half_scp_kills)
+					{
+						MVP.scp_kill_count[ev.Killer.Name]++;
+					}
+					else
+					{
+						MVP.killCounter[ev.Killer.Name]++;
+					}
 					MVP.multikill[ev.Killer.Name]++;
 				}
 				else if (ev.Player.TeamRole.Team != Smod2.API.Team.SCP && ev.Killer.TeamRole.Team != Smod2.API.Team.SCP)

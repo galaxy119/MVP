@@ -1,5 +1,0 @@
-/home/Joker/SCP Plugins/bin/MVP/MVP.dll
-/home/Joker/SCP Plugins/MVP/MVP/obj/x86/Release/MVP.csprojAssemblyReference.cache
-/home/Joker/SCP Plugins/MVP/MVP/obj/x86/Release/MVP.csproj.CoreCompileInputs.cache
-/home/Joker/SCP Plugins/MVP/MVP/obj/x86/Release/MVP.csproj.CopyComplete
-/home/Joker/SCP Plugins/MVP/MVP/obj/x86/Release/MVP.dll
