@@ -13,7 +13,7 @@ namespace MVP
 		name = "Most Valuable player",
 		description = "Announces who the best player in the round was.",
 		id = "joker.mvp",
-		version = "1.0.0",
+		version = "1.0.1",
 		SmodMajor = 3,
 		SmodMinor = 3,
 		SmodRevision = 0
