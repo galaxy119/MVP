@@ -27,56 +27,41 @@ namespace MVP
 		}
 		public void OnRoundStart(RoundStartEvent ev)
 		{
-			foreach (Player player in plugin.Server.GetPlayers())
-			{
-				MVP.killCounter[player.Name] = 0;
-				MVP.multi_track[player.Name] = false;
-				MVP.multikill[player.Name] = 0;
-				MVP.scp_kill_count[player.Name] = 0;
-			}
+			Functions.singleton.Refresh();
 		}
 		public void OnPlayerJoin(PlayerJoinEvent ev)
 		{
-			MVP.killCounter[ev.Player.Name] = 0;
-			MVP.multi_track[ev.Player.Name] = false;
-			MVP.multikill[ev.Player.Name] = 0;
-			MVP.scp_kill_count[ev.Player.Name] = 0;
+			Functions.singleton.Refresh();
 		}
 		public void OnPlayerDie(PlayerDeathEvent ev)
 		{
-			if (MVP.enabled && ev.Killer != null)
+			if(!MVP.enabled) return;
+			Functions.singleton.Refresh();
+			if (ev.Killer != ev.Player && ev.Killer.Name != "Server")
 			{
-				if (MVP.track_scps && ev.Killer.TeamRole.Team == Smod2.API.Team.SCP)
+				switch (ev.Player.TeamRole.Team)
 				{
-					MVP.killCounter[ev.Killer.Name]++;
-					MVP.multikill[ev.Killer.Name]++;
+					case Smod2.API.Team.SCP:
+						if (MVP.track_scp_kills)
+							MVP.scp_kill_count[ev.Killer.Name]++;
+						break;
 				}
-				else if (MVP.track_scp_kills && ev.Player.TeamRole.Team == Smod2.API.Team.SCP)
+				switch (ev.Killer.TeamRole.Team)
 				{
-					if (MVP.half_scp_kills)
-					{
-						MVP.scp_kill_count[ev.Killer.Name]++;
-					}
-					else
-					{
-						MVP.killCounter[ev.Killer.Name]++;
-					}
-					MVP.multikill[ev.Killer.Name]++;
+					case Smod2.API.Team.SCP:
+						if (MVP.track_scps)
+							MVP.killCounter[ev.Killer.Name]++;
+						break;
 				}
-				else if (ev.Player.TeamRole.Team != Smod2.API.Team.SCP && ev.Killer.TeamRole.Team != Smod2.API.Team.SCP)
-				{
-					MVP.killCounter[ev.Killer.Name]++;
-					MVP.multikill[ev.Killer.Name]++;
-				}
-				if (MVP.multi_kill)
-				{
-					Timing.Run(Functions.singleton.MultiKill(ev.Killer, MVP.multi_kill_delay));
-				}
+				MVP.killCounter[ev.Killer.Name]++;
 			}
+			if (MVP.multi_kill)
+				Timing.Run(Functions.singleton.MultiKill(ev.Killer, MVP.multi_kill_delay));
 		}
 		public void OnRoundEnd(RoundEndEvent ev)
 		{
 			Functions.singleton.Announce();
+			Functions.singleton.ClearStats();
 		}
 	}
 }

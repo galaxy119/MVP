@@ -29,10 +29,14 @@ namespace MVP
 						return new string[] {GetUsage()};
 					case "enable":
 						Functions.singleton.Enable();
+						Functions.singleton.Refresh();
 						return new string[] { "The MVP plugin has been enabled." };
 					case "disable":
 						MVP.enabled = false;
 						return new string[] { "The MVP plugin has been disabled." };
+					case "clear": 
+						Functions.singleton.ClearStats();
+						return new string[] { "All current MVP stats have been cleared." };
 					case "announce":
 						if (MVP.enabled)
 						{

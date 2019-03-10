@@ -28,36 +28,36 @@ namespace MVP
 				{
 					MVP.Server.Map.ClearBroadcasts();
 					MVP.Server.Map.Broadcast(10, player.Name + " " + MVP.multi_text, false);
-				}
-				if (player.TeamRole.Team == Smod2.API.Team.SCP)
-				{
-					switch (player.TeamRole.Role)
+					if (player.TeamRole.Team == Smod2.API.Team.SCP)
 					{
-						case Role.SCP_049:
+						switch (player.TeamRole.Role)
 						{
-							PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 0 4 9 is on fire", false);
-							break;
-						}
-						case Role.SCP_096:
-						{
-							PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 0 9 6 is on fire", false);
-							break;
-						}
-						case Role.SCP_106:
-						{
-							PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 1 0 6 is on fire", false);
-							break;
-						}
-						case Role.SCP_173:
-						{
-							PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 1 7 3 is on fire", false);
-							break;
-						}
-						case Role.SCP_939_53:
-						case Role.SCP_939_89:
-						{
-							PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 9 3 9 is on fire", false);
-							break;
+							case Role.SCP_049:
+							{
+								PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 0 4 9 is on fire", false);
+								break;
+							}
+							case Role.SCP_096:
+							{
+								PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 0 9 6 is on fire", false);
+								break;
+							}
+							case Role.SCP_106:
+							{
+								PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 1 0 6 is on fire", false);
+								break;
+							}
+							case Role.SCP_173:
+							{
+								PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 1 7 3 is on fire", false);
+								break;
+							}
+							case Role.SCP_939_53:
+							case Role.SCP_939_89:
+							{
+								PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 9 3 9 is on fire", false);
+								break;
+							}
 						}
 					}
 				}
@@ -98,9 +98,19 @@ namespace MVP
 				}
 			}
 		}
+		public void ClearStats()
+		{
+			MVP.killCounter.Clear();
+			MVP.scp_kill_count.Clear();
+			MVP.multikill.Clear();
+			MVP.multi_track.Clear();
+		}
 		public void Enable()
 		{
 			MVP.enabled = true;
+		}
+		public void Refresh()
+		{
 			MVP.Info("Refreshing player list..");
 			foreach (Player player in MVP.Server.GetPlayers())
 			{
