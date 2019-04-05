@@ -15,53 +15,42 @@ namespace MVP
 
 		public void OnWaitingForPlayers(WaitingForPlayersEvent ev)
 		{
-			MVP.enabled = this.plugin.GetConfigBool("mvp_enable");
-			MVP.count_grenades = this.plugin.GetConfigBool("mvp_count_grenades");
-			MVP.track_scp_kills = this.plugin.GetConfigBool("mvp_track_scp_kills");
-			MVP.track_scps = this.plugin.GetConfigBool("mvp_track_scps");
-			MVP.multi_kill = this.plugin.GetConfigBool("mvp_multikill");
-			MVP.multi_kill_delay = this.plugin.GetConfigFloat("mvp_multikill_delay");
-			MVP.multi_kill_num = this.plugin.GetConfigInt("mvp_multikill_num");
-			MVP.multi_text = this.plugin.GetConfigString("mvp_multi_text");
-			MVP.multi_cassie = this.plugin.GetConfigBool("mvp_multi_cassie");
+			plugin.ReloadConfig();
 		}
 		public void OnRoundStart(RoundStartEvent ev)
 		{
-			Functions.singleton.Refresh();
+			plugin.Functions.Refresh();
 		}
 		public void OnPlayerJoin(PlayerJoinEvent ev)
 		{
-			Functions.singleton.Refresh();
+			plugin.Functions.Refresh();
 		}
 		public void OnPlayerDie(PlayerDeathEvent ev)
 		{
-			if(!MVP.enabled) return;
-			Functions.singleton.Refresh();
-			if (ev.Killer != ev.Player && ev.Killer.Name != "Server")
+			if (!plugin.enabled) return;
+			plugin.Functions.Refresh();
+			plugin.Debug(ev.Player.Name + ev.Killer.Name);
+			if (ev.Killer.SteamId == ev.Player.SteamId || ev.Killer.Name == "Server" || ev.Player.Name == "Sever" || ev.Killer.Name == "" || ev.Player.Name == "") return;
+			if (ev.DamageTypeVar == DamageType.POCKET || ev.DamageTypeVar == DamageType.WALL || ev.DamageTypeVar == DamageType.CONTAIN ||
+				ev.DamageTypeVar == DamageType.NUKE || ev.DamageTypeVar == DamageType.LURE || ev.DamageTypeVar == DamageType.DECONT || ev.DamageTypeVar == DamageType.FALLDOWN) return;
+
+			if (ev.Player.TeamRole.Team == Smod2.API.Team.SCP && plugin.track_scp_kills)
+				plugin.scp_kill_count[ev.Killer.Name]++;
+			if (ev.Killer.TeamRole.Team == Smod2.API.Team.SCP && plugin.track_scps)
+				plugin.killCounter[ev.Killer.Name]++;
+			else if (ev.Killer.TeamRole.Team != Smod2.API.Team.SCP)
+				plugin.killCounter[ev.Killer.Name]++;
+
+			if (plugin.multi_kill)
 			{
-				switch (ev.Player.TeamRole.Team)
-				{
-					case Smod2.API.Team.SCP:
-						if (MVP.track_scp_kills)
-							MVP.scp_kill_count[ev.Killer.Name]++;
-						break;
-				}
-				switch (ev.Killer.TeamRole.Team)
-				{
-					case Smod2.API.Team.SCP:
-						if (MVP.track_scps)
-							MVP.killCounter[ev.Killer.Name]++;
-						break;
-				}
-				MVP.killCounter[ev.Killer.Name]++;
+				plugin.multikill[ev.Player.Name]++;
+				Timing.Run(plugin.Functions.MultiKill(ev.Killer, plugin.multi_kill_delay));
 			}
-			if (MVP.multi_kill)
-				Timing.Run(Functions.singleton.MultiKill(ev.Killer, MVP.multi_kill_delay));
 		}
 		public void OnRoundEnd(RoundEndEvent ev)
 		{
-			Functions.singleton.Announce();
-			Functions.singleton.ClearStats();
+			plugin.Functions.Announce();
+			Timing.Run(plugin.Functions.ClearStats());
 		}
 	}
 }

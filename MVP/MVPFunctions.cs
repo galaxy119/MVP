@@ -10,125 +10,123 @@ namespace MVP
 {
 	public class Functions
 	{
-		public static Functions singleton;
-		public MVP MVP;
-		public Functions(MVP plugin)
-		{
-			this.MVP = plugin;
-			Functions.singleton = this;
-		}
+		public MVP plugin;
+		public Functions(MVP plugin) => this.plugin = plugin;
 
 		public IEnumerable<float> MultiKill(Player player, float delay)
 		{
-			if (!MVP.multi_track[player.Name])
+			if (!plugin.multi_track[player.Name])
 			{
-				MVP.multi_track[player.Name] = true;
+				plugin.multi_track[player.Name] = true;
 				yield return delay;
-				if (MVP.multikill[player.Name] >= MVP.multi_kill_num)
+				plugin.Info(plugin.multikill[player.Name].ToString() + " " + plugin.multi_kill_num);
+				if (plugin.multikill[player.Name] >= plugin.multi_kill_num)
 				{
-					MVP.Server.Map.ClearBroadcasts();
-					MVP.Server.Map.Broadcast(10, player.Name + " " + MVP.multi_text, false);
+					plugin.Server.Map.ClearBroadcasts();
+					plugin.Server.Map.Broadcast(10, player.Name + " " + plugin.multi_text, false);
 					if (player.TeamRole.Team == Smod2.API.Team.SCP)
 					{
 						switch (player.TeamRole.Role)
 						{
 							case Role.SCP_049:
-							{
-								PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 0 4 9 is on fire", false);
-								break;
-							}
+								{
+									PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 0 4 9 is on fire", false);
+									break;
+								}
 							case Role.SCP_096:
-							{
-								PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 0 9 6 is on fire", false);
-								break;
-							}
+								{
+									PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 0 9 6 is on fire", false);
+									break;
+								}
 							case Role.SCP_106:
-							{
-								PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 1 0 6 is on fire", false);
-								break;
-							}
+								{
+									PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 1 0 6 is on fire", false);
+									break;
+								}
 							case Role.SCP_173:
-							{
-								PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 1 7 3 is on fire", false);
-								break;
-							}
+								{
+									PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 1 7 3 is on fire", false);
+									break;
+								}
 							case Role.SCP_939_53:
 							case Role.SCP_939_89:
-							{
-								PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 9 3 9 is on fire", false);
+								{
+									PlayerManager.localPlayer.GetComponent<MTFRespawn>().CallRpcPlayCustomAnnouncement("SCP 9 3 9 is on fire", false);
+									break;
+								}
+							default:
 								break;
-							}
 						}
 					}
 				}
-				MVP.multi_track[player.Name] = false;
-				MVP.multikill[player.Name] = 0;
+				plugin.multi_track[player.Name] = false;
+				plugin.multikill[player.Name] = 0;
 			}
 		}
 		public void Announce()
 		{
-			if (MVP.enabled)
+			if (plugin.enabled)
 			{
 				KeyValuePair<string, double> max = new KeyValuePair<string, double>();
-				foreach (var kvp in MVP.scp_kill_count)
+				foreach (var kvp in plugin.scp_kill_count)
 				{
-					if (kvp.Value > MVP.killCounter[kvp.Key])
+					if (kvp.Value > plugin.killCounter[kvp.Key])
 					{
-						MVP.killCounter[kvp.Key] += (MVP.scp_kill_count[kvp.Key] / 2);
+						plugin.killCounter[kvp.Key] += plugin.scp_kill_count[kvp.Key];
 					}
 				}
-				
-				foreach (var kvp in MVP.killCounter)
+
+				foreach (var kvp in plugin.killCounter)
 				{
-					if (kvp.Value > MVP.scp_kill_count[kvp.Key] && MVP.half_scp_kills)
+					if (kvp.Value > plugin.scp_kill_count[kvp.Key] && plugin.half_scp_kills)
 					{
-						MVP.killCounter[kvp.Key] += (MVP.scp_kill_count[kvp.Key] / 2);
+						plugin.killCounter[kvp.Key] += (plugin.scp_kill_count[kvp.Key] / 2);
 					}
 					if (kvp.Value > max.Value)
 						max = kvp;
 				}
-				MVP.Server.Map.ClearBroadcasts();
-				if (MVP.half_scp_kills)
+				if (plugin.half_scp_kills)
 				{
-					MVP.Server.Map.Broadcast(25, "MVP: " + max.Key + " killed the most players!", false);
+					plugin.Server.Map.Broadcast(25, "MVP: " + max.Key + " killed the most players!", false);
 				}
 				else
 				{
-					MVP.Server.Map.Broadcast(25, "MVP: " + max.Key + " killed the most players, with " + max.Value + " total kills!", false);
+					plugin.Server.Map.Broadcast(25, "MVP: " + max.Key + " killed the most players, with " + max.Value + " total kills!", false);
 				}
 			}
 		}
-		public void ClearStats()
+		public IEnumerable<float> ClearStats()
 		{
-			MVP.killCounter.Clear();
-			MVP.scp_kill_count.Clear();
-			MVP.multikill.Clear();
-			MVP.multi_track.Clear();
+			yield return 5;
+			plugin.killCounter.Clear();
+			plugin.scp_kill_count.Clear();
+			plugin.multikill.Clear();
+			plugin.multi_track.Clear();
 		}
 		public void Enable()
 		{
-			MVP.enabled = true;
+			plugin.enabled = true;
 		}
 		public void Refresh()
 		{
-			MVP.Info("Refreshing player list..");
-			foreach (Player player in MVP.Server.GetPlayers())
+			plugin.Debug("Refreshing player list..");
+			foreach (Player player in plugin.Server.GetPlayers())
 			{
-				if (!MVP.killCounter.ContainsKey(player.Name))
+				if (!plugin.killCounter.ContainsKey(player.Name))
 				{
-					MVP.killCounter[player.Name] = 0;
+					plugin.killCounter.Add(player.Name, 0);
 				}
-				if (!MVP.multi_track.ContainsKey(player.Name))
+				if (!plugin.multi_track.ContainsKey(player.Name))
 				{
-					MVP.multi_track[player.Name] = false;
+					plugin.multi_track.Add(player.Name, false);
 				}
-				if (!MVP.multikill.ContainsKey(player.Name))
+				if (!plugin.multikill.ContainsKey(player.Name))
 				{
-					MVP.multikill[player.Name] = 0;
+					plugin.multikill.Add(player.Name, 0);
 				}
-				if (!MVP.scp_kill_count.ContainsKey(player.Name))
+				if (!plugin.scp_kill_count.ContainsKey(player.Name))
 				{
-					MVP.scp_kill_count[player.Name] = 0;
+					plugin.scp_kill_count.Add(player.Name, 0);
 				}
 			}
 		}

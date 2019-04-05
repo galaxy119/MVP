@@ -50,14 +50,14 @@ namespace MVP
 		public override void Register()
 		{
 			this.AddEventHandlers(new EventsHandler(this), Priority.Normal);
-			this.AddConfig(new ConfigSetting("mvp_enable", true, SettingType.BOOL, true, "If MVP should be enabled or not."));
-			this.AddConfig(new ConfigSetting("mvp_track_scp_kills", true, SettingType.BOOL, true, "If SCP kills should count towards the MVP."));
-			this.AddConfig(new ConfigSetting("mvp_track_scps", true, SettingType.BOOL, true, "If SCP's should be allowed to be MVP's."));
-			this.AddConfig(new ConfigSetting("mvp_count_grenades", true, SettingType.BOOL, true, "If it shoudl count how many grenades the MVP threw."));
-			this.AddConfig(new ConfigSetting("mvp_multikill", true, SettingType.BOOL, true, "If there should be an announcement for multikills."));
-			this.AddConfig(new ConfigSetting("mvp_multikill_delay", 3f, SettingType.FLOAT, true, "The amount of time kills must be registered in to qualify for a multikill."));
-			this.AddConfig(new ConfigSetting("mvp_multikill_num", 3, SettingType.NUMERIC, true, "The number of kills required to get a Multikill announcement."));
-			this.AddConfig(new ConfigSetting("mvp_multi_text", "is on fire!", SettingType.STRING, true, "The text displayed for Multi-Kills."));
+			this.AddConfig(new ConfigSetting("mvp_enable", true, true, "If MVP should be enabled or not."));
+			this.AddConfig(new ConfigSetting("mvp_track_scp_kills", true, true, "If SCP kills should count towards the MVP."));
+			this.AddConfig(new ConfigSetting("mvp_track_scps", true, true, "If SCP's should be allowed to be MVP's."));
+			this.AddConfig(new ConfigSetting("mvp_count_grenades", true, true, "If it shoudl count how many grenades the MVP threw."));
+			this.AddConfig(new ConfigSetting("mvp_multikill", true, true, "If there should be an announcement for multikills."));
+			this.AddConfig(new ConfigSetting("mvp_multikill_delay", 3f, true, "The amount of time kills must be registered in to qualify for a multikill."));
+			this.AddConfig(new ConfigSetting("mvp_multikill_num", 3, true, "The number of kills required to get a Multikill announcement."));
+			this.AddConfig(new ConfigSetting("mvp_multi_text", "is on fire!", true, "The text displayed for Multi-Kills."));
 			this.AddCommands(new string[] { "mvp" }, new MVPCommand());
 			Timing.Init(this);
 			new Functions(this);

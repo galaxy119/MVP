@@ -60,13 +60,13 @@ namespace MVP
 				}
 				if (MVP.multi_kill)
 				{
-					Timing.Run(Functions.singleton.MultiKill(ev.Killer, MVP.multi_kill_delay));
+					Timing.Run(plugin.Functions.MultiKill(ev.Killer, MVP.multi_kill_delay));
 				}
 			}
 		}
 		public void OnRoundEnd(RoundEndEvent ev)
 		{
-			Functions.singleton.Announce();
+			plugin.Functions.Announce();
 		}
 	}
 }

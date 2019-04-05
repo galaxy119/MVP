@@ -15,7 +15,7 @@ namespace MVP
 		public Functions(MVP plugin)
 		{
 			this.MVP = plugin;
-			Functions.singleton = this;
+			plugin.Functions = this;
 		}
 
 		public IEnumerable<float> MultiKill(Player player, float delay)
