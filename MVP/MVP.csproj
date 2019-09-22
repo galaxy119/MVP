@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
@@ -18,6 +18,9 @@
     <AssemblyName>MVP</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\References\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
     <Reference Include="Smod2">
       <HintPath>..\References\Smod2.dll</HintPath>
     </Reference>
@@ -33,7 +36,7 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>..\References\Assembly-CSharp.dll</HintPath>
     </Reference>
-	<Reference Include="UnityEngine.Networking">
+    <Reference Include="UnityEngine.Networking">
       <HintPath>..\References\UnityEngine.Networking.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -48,17 +51,14 @@
   <ItemGroup>
     <Compile Include="MVP.cs" />
     <Compile Include="EventsHandler.cs" />
-    <Compile Include="Timing.cs" />
-	<Compile Include="MVPCommands.cs" />
-	<Compile Include="MVPFunctions.cs" />
-	<Compile Include="GetPlayerFromString.cs" />
-	<Compile Include="LevenshteinDistance.cs" />
+    <Compile Include="MVPCommands.cs" />
+    <Compile Include="MVPFunctions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-      <PreBuildEvent>rm -rf *</PreBuildEvent>
+    <PreBuildEvent>rm -rf *</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-      <PostBuildEvent>rm -rf Smod* Assembly* Unity* *.pdb "/home/Joker/SCP Plugins/MVP/MVP/obj"</PostBuildEvent>
+    <PostBuildEvent>rm -rf Smod* Assembly* Unity* *.pdb "/home/Joker/SCP Plugins/MVP/MVP/obj"</PostBuildEvent>
   </PropertyGroup>
 </Project>
